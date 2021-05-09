@@ -11,6 +11,7 @@ const chatSocket = new WebSocket(
 
 chatSocket.onmessage = function (e) {
     const data = JSON.parse(e.data);
+    console.log(data);
     if(data.game_status==true){
         document.getElementById('pauseButton').style.display = "inline";
         document.getElementById('resumeButton').style.display = "none";
@@ -77,10 +78,16 @@ chatSocket.onmessage = function (e) {
     gameStats.innerHTML = 'Current Turn : Team ' + data.turn + '<br /> Previous Roll : ' + data.previous_roll;
     document.getElementById('currentTeam').value = data.turn;
 
+    document.querySelector('#balance_1').innerHTML = data['Team_1'];
+    document.querySelector('#balance_2').innerHTML = data['Team_2'];
+    document.querySelector('#balance_3').innerHTML = data['Team_3'];
+    document.querySelector('#balance_4').innerHTML = data['Team_4'];
+    document.querySelector('#balance_5').innerHTML = data['Team_5'];
+    document.querySelector('#balance_6').innerHTML = data['Team_6'];
 }
 
 function pauseGame(){
-    alert('Game Paused');
+    // alert('Game Paused');
     // document.getElementById('pauseButton').style.display = "none";
     // document.getElementById('resumeButton').style.display = "inline";
     chatSocket.send(JSON.stringify({
@@ -91,7 +98,7 @@ function pauseGame(){
 }
 
 function resumeGame(){
-    alert('Game Resumed');
+    // alert('Game Resumed');
     // document.getElementById('pauseButton').style.display = "inline";
     // document.getElementById('resumeButton').style.display = "none";
     chatSocket.send(JSON.stringify({
@@ -102,7 +109,7 @@ function resumeGame(){
 }
 
 function skipTurn(){
-    alert('Turn Skipped');
+    alert('Team ' + document.getElementById('currentTeam').value + ' Turn Skipped');
     chatSocket.send(JSON.stringify({
         'team_id': document.getElementById('currentTeam').value,
         'result': 0,

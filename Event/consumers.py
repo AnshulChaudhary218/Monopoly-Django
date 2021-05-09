@@ -17,7 +17,7 @@ class MonopolyEvent(AsyncWebsocketConsumer):
         
         turn_list = await self.get_moves()
         turn_list_old = await self.get_moves()
-        
+        player_balance = await self.get_balance()
         
         await self.channel_layer.group_send(
             self.game_group_name,
@@ -38,6 +38,12 @@ class MonopolyEvent(AsyncWebsocketConsumer):
                 'O_team_4': turn_list_old[4],
                 'O_team_5': turn_list_old[5],
                 'O_team_6': turn_list_old[6],
+                'Team_1': player_balance[0],
+                'Team_2': player_balance[1],
+                'Team_3': player_balance[2],
+                'Team_4': player_balance[3],
+                'Team_5': player_balance[4],
+                'Team_6': player_balance[5],
             }
         )
 
@@ -58,6 +64,12 @@ class MonopolyEvent(AsyncWebsocketConsumer):
         O_team_4 = event['O_team_4']
         O_team_5 = event['O_team_5']
         O_team_6 = event['O_team_6']
+        Team_1 = event['Team_1']
+        Team_2 = event['Team_2']
+        Team_3 = event['Team_3']
+        Team_4 = event['Team_4']
+        Team_5 = event['Team_5']
+        Team_6 = event['Team_6']
         
         
         await self.send(text_data=json.dumps({
@@ -76,6 +88,12 @@ class MonopolyEvent(AsyncWebsocketConsumer):
             'O_team_4':O_team_4,
             'O_team_5':O_team_5,
             'O_team_6':O_team_6,
+            'Team_1':Team_1,
+            'Team_2':Team_2,
+            'Team_3':Team_3,
+            'Team_4':Team_4,
+            'Team_5':Team_5,
+            'Team_6':Team_6,
             
         }))
         
@@ -107,6 +125,12 @@ class MonopolyEvent(AsyncWebsocketConsumer):
         turn_obj.save()
         return
 
+    @database_sync_to_async
+    def get_balance(self):
+        players = PlayerCoins.objects.all()
+        balances = [players[0].balance, players[1].balance, players[2].balance, players[3].balance, players[4].balance, players[5].balance]
+        return balances
+    
     @database_sync_to_async
     def update_game_pause(self):
         turn_obj = Moves.objects.get(id=1)
@@ -158,6 +182,9 @@ class MonopolyEvent(AsyncWebsocketConsumer):
             await self.update_game_resume()
             turn_list = await self.get_moves()
             pass
+        
+        player_balance = await self.get_balance()
+        
         await self.channel_layer.group_send(
             self.game_group_name,
             {
@@ -178,6 +205,12 @@ class MonopolyEvent(AsyncWebsocketConsumer):
                 'O_team_4': turn_list_old[4],
                 'O_team_5': turn_list_old[5],
                 'O_team_6': turn_list_old[6],
+                'Team_1': player_balance[0],
+                'Team_2': player_balance[1],
+                'Team_3': player_balance[2],
+                'Team_4': player_balance[3],
+                'Team_5': player_balance[4],
+                'Team_6': player_balance[5],
             }
         )
     
@@ -198,6 +231,12 @@ class MonopolyEvent(AsyncWebsocketConsumer):
         O_team_4 = event['O_team_4']
         O_team_5 = event['O_team_5']
         O_team_6 = event['O_team_6']
+        Team_1 = event['Team_1']
+        Team_2 = event['Team_2']
+        Team_3 = event['Team_3']
+        Team_4 = event['Team_4']
+        Team_5 = event['Team_5']
+        Team_6 = event['Team_6']
 
         await self.send(text_data=json.dumps({
             # 'dice': dice,
@@ -216,6 +255,12 @@ class MonopolyEvent(AsyncWebsocketConsumer):
             'O_team_4':O_team_4,
             'O_team_5':O_team_5,
             'O_team_6':O_team_6,
+            'Team_1':Team_1,
+            'Team_2':Team_2,
+            'Team_3':Team_3,
+            'Team_4':Team_4,
+            'Team_5':Team_5,
+            'Team_6':Team_6,
         }))
         
         

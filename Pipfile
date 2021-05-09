@@ -8,6 +8,7 @@ mysqlclient = "*"
 django = "*"
 channels = "*"
 channels-redis = "*"
+wfastcgi = "*"
 
 [dev-packages]
 

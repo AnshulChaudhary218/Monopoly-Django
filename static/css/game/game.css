@@ -291,6 +291,7 @@ div {
     height: 94%;
     margin: 0.3vw auto;
     position: relative;
+	text-align: center;
 }
 
 .card-orange {
@@ -304,15 +305,35 @@ div {
     height: 94%;
     margin: 0.3vw auto;
     position: relative;
+	text-align: center;
 }
 
 .card-play {
 	position: absolute;
 	width: 10%;
 	height: 6vw;
-	background: linear-gradient(#c44cf4, #a4a3f9);
-	transform: rotateZ(0deg) translateX(400%) translateY(100%);
+	/* background: linear-gradient(#c44cf4, #a4a3f9); */
+	transform: rotateZ(0deg) translateX(450%) translateY(400%);
 	text-align: center;
+}
+
+.card-skip {
+	position: absolute;
+	width: 10%;
+	height: 6vw;
+	/* background: linear-gradient(#c44cf4, #a4a3f9); */
+	transform: rotateZ(0deg) translateX(20%) translateY(400%);
+	text-align: center;
+}
+.card-balance {
+	position: absolute;
+	width: 15%;
+	height: 11vw;
+	background: linear-gradient(#4cd2f4, #f9a3ae);
+	transform: rotateZ(0deg) translateX(35%) translateY(350%);
+	text-align: center;
+	font-size: 1vw;
+	color: #000000;
 }
 
 .corner {

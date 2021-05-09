@@ -18,6 +18,7 @@ class PropertyCard(models.Model):
     cost = models.IntegerField()
     rent = models.IntegerField()
     mortgage = models.IntegerField()
+    recover = models.IntegerField(default=0)
     status = models.BooleanField(default=True)
     mortgaged = models.BooleanField(default=False)
     def __str__(self):

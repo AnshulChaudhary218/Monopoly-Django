@@ -14,35 +14,39 @@
         <div id="displayTurn" style="color: white; font-size: 30px;"></div>
         <input id="roll" class="btn btn-primary" type="button" value="Roll">
         <input id="notRoll" class="btn btn-warning" type="button" value="Wait For Turn">
-        <input id="game_status" class="btn btn-danger" type="button" value="Game Paused">
+        <input id="game_status"style="display: none;" class="btn btn-danger" type="button" value="Game Paused">
     </div>
 </div>
 <br>
 <hr style="border: 1px solid white;">
 <div>
-    <span><h3>Balance: {{player_data.balance}}</h3> <h6><a href="{% url 'transactions' user.username %}"> Transaction History </a></h6></span>
+    <span><h3>Balance: <i class="fa fa-inr" aria-hidden="true"></i><span id="balance"></span></h3> <h6><a href="{% url 'transactions' user.username %}"> Transaction History </a></h6></span>
 </div>
 <hr style="border: 1px solid white;">
 <div class="row" >
     {% for p in properties %}
         {% if not p.properties.mortgaged %}
-        <div class="col-3 card bg-light">
+        <div class="col-md-4 card bg-light">
             <div class="card-header">{{p.player.user.username}}</div>
             <div class="card-body">
             <h4 class="card-title">{{p.properties.name}}</h4>
             <p class="card-text">{{p.properties.desc}}</p>
+            <p class="card-text">Value: {{p.properties.cost}}</p>
             <p class="card-text">Fine: {{p.properties.rent}}</p>
             <p class="card-text">Mortgage: {{p.properties.mortgage}}</p>
+            <p class="card-text">Recover: {{p.properties.recover}}</p>
         </div>
         </div>
         {% else %}
-        <div class=" col-3 card text-white bg-danger">
+        <div class="col-md-4 card text-white bg-danger">
             <div class="card-header">{{p.player.user.username}}</div>
             <div class="card-body">
             <h4 class="card-title">{{p.properties.name}}</h4>
             <p class="card-text">{{p.properties.desc}}</p>
+            <p class="card-text">Value: {{p.properties.cost}}</p>
             <p class="card-text">Fine: {{p.properties.rent}}</p>
             <p class="card-text">Mortgage: {{p.properties.mortgage}}</p>
+            <p class="card-text">Recover: {{p.properties.recover}}</p>
         </div>
         </div>
         {% endif %}
@@ -52,6 +56,7 @@
     {{ request.user.id|json_script:"user_id" }}
     {{ game_room|json_script:"game_room" }}
     {{ team_id|json_script:"team_id" }}
+    {{ request.user.username|json_script:"team_name" }}
     <script src="{% static 'js/game/dice.js' %}"></script>
 
 {% endblock %}

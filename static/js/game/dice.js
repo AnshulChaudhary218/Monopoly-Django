@@ -3,6 +3,7 @@ document.querySelector('input[type=button]').addEventListener('click', function(
 const user_id = JSON.parse(document.getElementById('user_id').textContent);
 const roomName = JSON.parse(document.getElementById('game_room').textContent);
 const team_id = JSON.parse(document.getElementById('team_id').textContent);
+const team_name = JSON.parse(document.getElementById('team_name').textContent);
 
 
 const chatSocket = new WebSocket(
@@ -23,6 +24,7 @@ function sendResult(result) {
 
 chatSocket.onmessage = function (e) {
     const data = JSON.parse(e.data);
+    document.getElementById('balance').innerHTML = data[team_name];
     console.log(data);
     if(data.game_status == false){
         document.getElementById('displayTurn').innerHTML = "Turn : Team " + data.turn;
@@ -31,17 +33,25 @@ chatSocket.onmessage = function (e) {
         document.getElementById('game_status').style.display = "inline";
     }
     else{
-        document.getElementById('displayTurn').innerHTML = "Turn : Team " + data.turn;
-        if(team_id == data.turn){
-            document.getElementById('roll').style.display = "inline";
-            document.getElementById('notRoll').style.display = "none";
-            document.getElementById('game_status').style.display = "none";
-        }
-        else{
+        if(team_id != data.turn){
             document.getElementById('roll').style.display = "none";
             document.getElementById('notRoll').style.display = "inline";
             document.getElementById('game_status').style.display = "none";
         }
+        setTimeout(function(){ 
+            document.getElementById('displayTurn').innerHTML = "Turn : Team " + data.turn;
+            if(team_id == data.turn){
+                document.getElementById('roll').style.display = "inline";
+                document.getElementById('notRoll').style.display = "none";
+                document.getElementById('game_status').style.display = "none";
+            }
+            else{
+                document.getElementById('roll').style.display = "none";
+                document.getElementById('notRoll').style.display = "inline";
+                document.getElementById('game_status').style.display = "none";
+            } 
+        }, 10000);
+        
     }
 }
 
@@ -69,5 +79,8 @@ var rollTheDice = function() {
     }
     console.log(result);
     document.getElementById('dice').innerHTML = output;
+    document.getElementById('roll').style.display = "none";
+    document.getElementById('notRoll').style.display = "inline";
+    document.getElementById('game_status').style.display = "none";
     sendResult(result)
 }
